@@ -1,4 +1,2 @@
 
-Save username in session after login finds matching username/password.
-
-Remove (null out) username in session for the /logout route.
+Use the bef user auth in session but add mongoose for persistence and bcrypt for password encryption.
