@@ -2,14 +2,12 @@ const express = require('express');
 const mustacheExpress = require('mustache-express');
 const bodyParser = require('body-parser');
 const session = require('express-session')
+const User = require('./model/user')
+const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://localhost:27017/auth');
 
 const app = express();
-
-const users = [
-  {username:"ginger", password:"snap"},
-  {username:"carmel", password:"corn"}
-]
-
 app.engine('mustache', mustacheExpress());
 app.set('views', './views')
 app.set('view engine', 'mustache')
@@ -26,9 +24,7 @@ app.use(session({
 
 // Keep track of which routes have been accessed in session. Have to do this in the browser because it will save the cookie.
 app.use(function (req, res, next) {
-  if (req.url === '/login') {
-    next()
-  } else if (!req.session.username) {
+  if (req.url === '/users' && !req.session.username) {
     res.render('login')
   } else {
     next()
@@ -38,6 +34,10 @@ app.use(function (req, res, next) {
 
 app.get('/', function (req, res) {
   res.render('home')
+})
+
+app.get('/users', function (req, res) {
+  res.render('users')
 })
 
 app.post('/login', function (req, res) {
