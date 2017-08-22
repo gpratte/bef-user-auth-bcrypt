@@ -6,6 +6,12 @@
   </head>
   <body>
     <h1>Users</h1>
+    {{#users}}
+      <p>{{username}}</p> 
+    {{/users}}
+    {{^users}}
+      no users
+    {{/users}}
     <a href="/logout"><button type="button" name="button">Logout</button></a>
   </body>
 </html>
